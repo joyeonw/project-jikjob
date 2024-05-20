@@ -26,7 +26,7 @@ public class CommentController {
 	// http://localhost:7777/Api/Comment/1/comments
 	@PostMapping("/Comment/{ccomu_bno}/commentCreate")
 	public List<CommunityVo> commentCreate(
-				@PathVariable int ccomu_bno,
+			@PathVariable int ccomu_bno,
 				@RequestBody CommunityVo communityVo
 			) {
 		
@@ -44,17 +44,23 @@ public class CommentController {
 			@PathVariable int ccomm_id,
 			@PathVariable int ccomu_bno,
 			@RequestBody CommunityVo communityVo)	{
-		// 좋아요를 증가시키는 로직
+		// 댓글 번호와 게시글 번호 설정
 		communityVo.setCcomu_bno(ccomu_bno);
 		communityVo.setCcomm_id(ccomm_id);
-		communityMapper.incrementLike(communityVo);
-		
-		
-	    // ccomm_id를 사용하여 해당 댓글에 대한 좋아요를 추가하거나 업데이트합니다.
-		return ResponseEntity.ok("좋아요가 추가되었습니다");
-	}
-		
-}
-		
-		
+		// 현재 좋아요 상태 확인
+	    int isLiked = communityMapper.isCommentLiked(communityVo);
+	    System.out.println("=======================isLiked" + isLiked);
 
+	    if (isLiked != 0) {
+	        // 이미 좋아요가 되어 있다면 좋아요 취소
+	        communityMapper.removeCommentLike(communityVo);
+	        communityMapper.decrementLikeCount(communityVo);
+	        return ResponseEntity.ok("좋아요가 취소되었습니다");
+	    } else {
+	        // 좋아요가 되어 있지 않다면 좋아요 추가
+	        communityMapper.addCommentLike(communityVo);
+	        communityMapper.incrementLikeCount(communityVo);
+	        return ResponseEntity.ok("좋아요가 추가되었습니다");
+	    }
+	}
+}

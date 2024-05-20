@@ -94,7 +94,7 @@
 	    <tr>
 	      <td colspan="5" style="text-align: right">
 	        [<a href="/Community/WriteForm?com_id=${ sessionScope.clogin.com_id}">새 글 추가</a>]
-	        [<a href="/Community/myList?com_id=${ sessionScope.clogin.com_id}">내가 쓴 글</a>]
+	        [<a href="/Community/ComuHome?com_id=${ sessionScope.clogin.com_id}">전체 게시판</a>]
 	      </td> 
 	      
 	    </tr>
@@ -107,7 +107,7 @@
 	      <td>${ boardList.ccomu_bno   }</td>
 	      <td>
 <!-- 	       <a href="#={ boardList.ccomu_bno }"> -->
-	          <a href="/Community/View?ccomu_bno=${boardList.ccomu_bno}&com_id=${ sessionScope.clogin.com_id}">
+	          <a href="/Community/MyListView?ccomu_bno=${boardList.ccomu_bno}&com_id=${ sessionScope.clogin.com_id}">
 	          ${ boardList.ccomu_title       }
 	       		</a>
 	      </td>	      	      

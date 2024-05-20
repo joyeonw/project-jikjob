@@ -98,34 +98,39 @@ input:not(input[type=submit]) { width:100%; }
     <%@include file="/WEB-INF/views/include/pheader.jsp" %>
   
 	<h2>게시글 등록</h2>
-	<form action="/Community/Write" method="POST">
+	<form action="/Community/Update" method="POST">
 	<input type="hidden" name="com_id" value="${ com_id }" />
+	<input type="hidden" name="ccomu_bno" value="${ ccomu_bno }" />
+	
 	<table id="table">
 	 <tr>
       <td>글번호</td>
-      <td><input type="text" name="ccomu_bno" /></td>
+      <td>${ vo.ccomu_bno }</td>
       <td>조회수</td>
-      <td><input type="text" name="ccomu_hit" /></td>      
+      <td>${ vo.ccomu_hit }</td>      
     </tr>
 	 <tr>
       <td>작성자</td>
-      <td>${ com_id }</td>
+      <td>${ vo.com_id }</td>
       <td>작성일</td>
-	  	<td><input type="text" id="ccomu_date" name="ccomu_date" /></td>
-	</tr>
+      <td>${ vo.ccomu_date }</td>
+    </tr>
 	 <tr>
       <td>제목</td>
-      <td colspan="3"><input type="text" name="ccomu_title" /></td>   
+      <td colspan="3">
+        <input type="text" name="ccomu_title" value="${ vo.ccomu_title }"/></td>
+       
     </tr>
     <tr>
 		  <td>내용</td>
 		  <td colspan="3">
-		    <textarea name="ccomu_content" rows="10" cols="50"></textarea>
+		    <textarea name="ccomu_content" rows="10" cols="50">${ vo.ccomu_content }</textarea>
 		  </td>
 		</tr>
     <tr>
-      <td colspan="4">  
-      <a class = "btn btn-info btn-sm" 
+      <td colspan="2"> 
+       <input type="submit" value="글 수정" /> 
+       <a class = "btn btn-info btn-sm" 
           href  = "javascript:history.back()">이전으로</a>&nbsp;&nbsp;
       </td>  
     </tr>	
@@ -141,23 +146,6 @@ input:not(input[type=submit]) { width:100%; }
   	goListEl.addEventListener('click', function(e) {
   		location.href = '/Community/ComuHome';
   	})
-  	
-  	// 현재 날짜와 시간을 포맷하여 반환하는 함수
-  function getCurrentDateTime() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더함
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  }
-
-  // 페이지가 로드될 때 현재 날짜와 시간을 입력 필드에 설정
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('ccomu_date').value = getCurrentDateTime();
-  });
   
   </script>
   

@@ -13,6 +13,18 @@
    
     ORDER BY  ccomu_bno DESC
 	</select>
+	<select id="getMycommunityVo">
+		SELECT  
+    	    CCM.ccomu_bno
+    	  , CCM.ccomu_title 
+    	  , CCM.COM_ID    	  
+    	  , CCM.CCOMU_HIT
+    	  , CCM.CCOMU_DATE
+    FROM  
+     		  C_COMMUNITY CCM
+   WHERE CCM.COM_ID = #{com_id}
+   ORDER BY  ccomu_bno DESC
+	</select>
 	<select id="getcommunityVo">	
 		SELECT  
     	    CCM.ccomu_bno
@@ -27,6 +39,7 @@
    	WHERE 
     	CCM.CCOMU_BNO = #{ccomu_bno}
 	</select>
+	
 	<select id="getCBoardCommentList">
 		SELECT  
     	   CMM.CCOMU_BNO
@@ -77,10 +90,49 @@
 		    0 
 		)
 	</insert>
-	<update id="incrementLike">
-	  UPDATE C_COMMENTS
-    SET CCOMU_GOOD = CCOMU_GOOD + 1
-    WHERE CCOMU_BNO = #{ccomu_bno} 
-    AND   CCOMM_ID = #{ccomm_id}
+<!-- 현재 사용자가 댓글에 좋아요를 눌렀는지 확인 -->
+   <select id="isCommentLiked" resultType="int">
+		    SELECT COUNT(*)
+		    FROM C_COMMENTS_LIKE
+		    WHERE CCOMU_BNO = #{ccomu_bno} AND CCOMM_ID = #{ccomm_id} AND COM_ID = #{com_id}
+		</select>
+   
+   <!-- 댓글의 좋아요 수 증가 -->
+   <update id="incrementLikeCount">
+	    UPDATE C_COMMENTS
+	    SET CCOMU_GOOD = CCOMU_GOOD + 1
+	    WHERE CCOMU_BNO = #{ccomu_bno} AND CCOMM_ID = #{ccomm_id}
 	</update>
+   
+   <!-- 댓글의 좋아요 수 감소 -->
+   <update id="decrementLikeCount">
+       UPDATE C_COMMENTS
+       SET CCOMU_GOOD = ccomu_good - 1
+       WHERE CCOMU_BNO = #{ccomu_bno} AND CCOMM_ID = #{ccomm_id}
+   </update>
+   
+   <!-- 사용자가 댓글에 좋아요를 눌렀음을 기록 -->
+   <insert id="addCommentLike">
+    INSERT INTO C_COMMENTS_LIKE (COMMENT_LIKE_BNO, CCOMU_BNO, CCOMM_ID, COM_ID)
+    VALUES (
+    (SELECT (NVL(MAX(COMMENT_LIKE_BNO), 0)+1) FROM C_COMMENTS_LIKE ),
+    #{ccomu_bno}, #{ccomm_id}, #{com_id})
+	</insert>
+   
+   <!-- 사용자가 댓글에 눌렀던 좋아요를 취소 -->
+   <delete id="removeCommentLike">
+	    DELETE FROM C_COMMENTS_LIKE
+	    WHERE CCOMU_BNO = #{ccomu_bno} AND CCOMM_ID = #{ccomm_id} AND COM_ID = #{com_id}
+	</delete>
+	<!-- 본인 게시물 업데이트 -->
+	<update id="updateBoard">
+		 UPDATE  C_COMMUNITY
+     SET    CCOMU_TITLE    =  #{ccomu_title},
+            CCOMU_CONTENT   =  #{ccomu_content}
+     WHERE  CCOMU_BNO      =  #{ccomu_bno}
+	</update>
+	<delete id="deleteBoard">
+	  DELETE C_COMMUNITY
+	  WHERE CCOMU_BNO = #{ccomu_bno}
+	</delete>
 </mapper>

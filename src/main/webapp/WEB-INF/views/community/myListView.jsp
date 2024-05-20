@@ -117,17 +117,30 @@
     </tr>
     <tr>
       <td>내용</td>
-		  <td colspan="3">
-		  	${ vo.ccomu_content }
-		  </td>
+      <td colspan="3">${ vo.ccomu_content }</td>
     </tr>
        
     <tr>
       <td colspan="4">
-    
+       <a class = "btn btn-primary btn-sm" 
+          href  = "/Community/WriteForm?com_id=${ sessionScope.clogin.com_id}">새 글 추가</a>&nbsp;&nbsp;
+       
+       <a class = "btn btn-warning btn-sm" 
+          href  = "/Community/UpdateForm?ccomu_bno=${ vo.ccomu_bno }&com_id=${ sessionScope.clogin.com_id}">수정</a>&nbsp;&nbsp;
+       
+       <a class = "btn btn-danger btn-sm" 
+          href  = "/Community/Delete?ccomu_bno=${ vo.ccomu_bno }&com_id=${ sessionScope.clogin.com_id}">삭제</a>&nbsp;&nbsp;
+       
+<!--        <a class = "btn btn-secondary btn-sm"  -->
+<%--           href  = "/Board/List?menu_id=${ vo.menu_id }">목록으로</a>&nbsp;&nbsp; --%>
+<!--       	 <a class = "btn btn-info btn-sm"  -->
+<!--           href  = "/Comment/">댓글달기</a>&nbsp;&nbsp; -->
        <a class = "btn btn-info btn-sm" 
           href  = "javascript:history.back()">이전으로</a>&nbsp;&nbsp;
+          
       
+<!--        <a class = "btn btn-success btn-sm"  -->
+<!--           href  = "/">Home</a> -->
       </td>
     </tr>
    </table> 
@@ -142,10 +155,18 @@
 				      <div class="card-header">
 				        ${commentList.com_id}
 				        &nbsp;&nbsp;&nbsp; 
+				        <!-- Button trigger modal 댓글수정버튼 -->     
+<!-- 				        <button type="button" -->
+<!-- 				          class="btn btn-sm btn-outline-primary"     -->
+				
+				                          
 				        
+<!-- 				        >수정</button> -->
 				     
-				           
-				        
+				        <!--댓글 삭제 버튼-->   
+				        <button  type="button"
+				          class="btn btn-sm btn-outline-danger comment-delete-btn" 
+				          >삭제</button> 
 				      </div>
 				      <div class="card-body" style="display: flex;">
 				        <div style="font-size: 20px;">${commentList.ccomm_body}</div>

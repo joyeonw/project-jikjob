@@ -37,4 +37,9 @@ public class CommunityVo {
 	private String ucomm_body;
 //	private String user_id;
 	private int ucomu_good;
+	
+	// C_COMMENTS_LIKE
+	private int comment_like;
+//	private int ccomm_id;
+//	private String com_id;
 }

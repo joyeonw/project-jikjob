@@ -20,7 +20,23 @@ public interface CommunityMapper {
 	List<CommunityVo> getCBoardCommentList(CommunityVo communityVo);
 
 	void insertComment(CommunityVo communityVo);
+	 
+    int isCommentLiked(CommunityVo communityVo);
+    
+    void incrementLikeCount(CommunityVo communityVo);
+   
+    void decrementLikeCount(CommunityVo communityVo);
+  
+    void addCommentLike(CommunityVo communityVo);
+   
+    void removeCommentLike(CommunityVo communityVo);
 
-	void incrementLike(CommunityVo communityVo);
+	List<CommunityVo> getMycommunityVo(CommunityVo communityVo);
+
+	void updateBoard(CommunityVo communityVo);
+
+	void deleteBoard(CommunityVo communityVo);
+
+	
 
 }
